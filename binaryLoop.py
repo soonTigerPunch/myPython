@@ -1,59 +1,81 @@
 import os
 binary=-1
-loop=1
-input_value=0
 def exits():
     print("Exiting...")
     exit()
 def plusBinary():
     global binary
-    minus = input("How many to plus? ").strip()
+    
+    
+    plus = input("How many to plus? ").strip()
     try:
-        binary = binary + int(minus) -1
+        binary = binary + int(plus) -1
     except ValueError:
-        print("invalid value, please enter a valid number")
+        print("Invalid value. Please enter a valid number.")
 def minusBinary():
     global binary
     minus = input("How many to minus? ").strip()
     try:
         binary = binary - int(minus) -1
     except ValueError:
-        print("invalid value, please enter a valid number")
+        print("Invalid value. Please enter a valid number.")
+def multiyplyBinary():
+    global binary
+    multiply=input("How many to multiply? ").strip()
+    try:
+        binary=binary * int(multiply)-1
+    except ValueError:
+        print("Invalid value. Please enter a valid number.")
+def divideBinary():
+    global binary
+    divide=input("How many to divide? ").strip()
+    try:
+        binary=binary // int(divide)-1
+    except ValueError:
+        print("Invalid value. Please enter a valid number.")
 
 def welcome():
-    os.system("cls")
+    os.system("cls" if os.name == "nt" else "clear")
     print("Welcome to Binary Loop!")
     print("This program will display binary numbers in a loop.")
     print("You can press Enter to see the next binary number, or type a number to start from there.")
-    print("You can also type '+' or '-' to increment or decrement the binary number by a specified amount.")
-    print("Type 'end' or 'exit' to quit the program.")
+    print("You can also use the following commands:")
+    print("'+' to add a number.")
+    print("'-' to subtract a number.")
+    print("'*' to multiply by a number.")
+    print("'/' to divide by a number.")
+    print("'end' or 'exit' to quit the program.")
+    print("'help' to see this message again.")
 welcome()
 
 while True:
     try:
-        for i in range(loop):
-            binary = binary + 1
-            input_value = input().strip()
-            key = input_value.lower()
-            commands = {
-                '-': minusBinary,
-                '+': plusBinary,
-                'end': exits,
-                'exit': exits,
-            }
-            os.system("cls")
-            if input_value == "":
-                pass
+        input_value = input().strip()
+        key = input_value.lower()
+        commands = {
+            '-': minusBinary,
+            '+': plusBinary,
+            '*': multiyplyBinary,
+            '/': divideBinary,
+            'end': exits,
+            'exit': exits,
+            'quit': exits,
+            'help': welcome,
+        }
+        binary = binary + 1 
+        os.system("cls" if os.name == "nt" else "clear")
+        if input_value == "":
+            pass
+        else:
+            handler = commands.get(key)
+            if handler:
+                handler()
             else:
-                handler = commands.get(key)
-                if handler:
-                    handler()
-                else:
-                    try:
-                        binary = int(input_value)
-                    except ValueError:
-                        print("invalid value, please enter a valid number")
+                try:
+                    binary = int(input_value)
+                except ValueError:
+                    print("invalid value, please enter a valid number")
             
-            print(bin(binary).replace("0b",""), f"({binary})")
-    except ValueError:
-        print("invalid value, please enter a valid number")
+        print(bin(binary).replace("0b",""), f"({binary})")
+    except KeyboardInterrupt:
+        exits()
