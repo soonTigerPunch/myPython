@@ -33,6 +33,21 @@ def divideBinary():
         binary=binary // int(divide)-1
     except ValueError:
         print("Invalid value. Please enter a valid number.")
+def uniCodeJump():
+    global binary
+    unicode_jump=input("Enter character or Unicode point (e.g., U+1F600): ").strip()
+    try:
+        if unicode_jump.startswith("U+"):
+            code_point = int(unicode_jump[2:], 16)
+            binary = code_point - 1
+        elif len(unicode_jump) == 1:
+            binary = ord(unicode_jump) - 1
+        else:
+            print("Invalid format. Please use 'U+XXXX' format or a single character.")
+    except ValueError:
+        print("Invalid value. Please enter a valid Unicode code point.")
+   
+    
 
 def welcome():
     os.system("cls" if os.name == "nt" else "clear")
@@ -44,6 +59,7 @@ def welcome():
     print("'-' to subtract a number.")
     print("'*' to multiply by a number.")
     print("'/' to divide by a number.")
+    print("'u' to jump to a Unicode character or code point.")
     print("'end' or 'exit' to quit the program.")
     print("'help' to see this message again.")
 welcome()
@@ -57,6 +73,7 @@ while True:
             '+': plusBinary,
             '*': multiyplyBinary,
             '/': divideBinary,
+            'u': uniCodeJump,
             'end': exits,
             'exit': exits,
             'quit': exits,
